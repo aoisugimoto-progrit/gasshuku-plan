@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
@@ -262,13 +263,13 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .hero-title-simple h1 {
-            font-family: 'Zen Kaku Gothic New', sans-serif;
-            font-size: clamp(48px, 8vw, 96px);
-            font-weight: 300;
-            letter-spacing: 0.08em;
+            font-family: 'Zen Antique', serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 400;
+            letter-spacing: 0.12em;
             color: #FEFEFE;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
-            line-height: 1.4;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            line-height: 1.2;
             margin: 0;
         }
         .scroll-hint {
@@ -349,7 +350,12 @@
 
         /* ===== 行程（Journey） ===== */
         #journey {
-            background: linear-gradient(135deg, #1e2a38 0%, #2d3142 100%);
+            background: linear-gradient(135deg,
+                #1e2a38 0%,
+                #2d3142 30%,
+                #1a2535 60%,
+                #2a2f42 100%
+            );
             padding: 120px 60px;
             position: relative;
         }
@@ -375,22 +381,78 @@
             background: rgba(255, 255, 255, 0.95);
             padding: 12px 16px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-            max-width: 210px;
-            z-index: 10;
-            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            max-width: 220px;
+            z-index: 1000;
+            pointer-events: auto;
         }
-        .label-arrow {
+
+        /* 矢印 */
+        .spot-label::after {
+            content: '';
             position: absolute;
-            width: 2px;
-            height: 36px;
-            background: rgba(217, 118, 82, 0.6);
+            width: 0;
+            height: 0;
+            border-style: solid;
         }
-        /* 各ラベルの位置に応じて矢印の向きを調整 */
-        .spot-label[data-spot="fireworks"] .label-arrow { bottom: -36px; right: 24px; }
-        .spot-label[data-spot="stay"] .label-arrow { bottom: -36px; left: 24px; }
-        .spot-label[data-spot="choshi"] .label-arrow { top: -36px; left: 24px; }
-        .spot-label[data-spot="beach"] .label-arrow { top: -36px; right: 24px; }
+
+        /* 花火（上部） */
+        .spot-label[data-spot="fireworks"] {
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .spot-label[data-spot="fireworks"]::after {
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 6px 0 6px;
+            border-color: rgba(255,255,255,0.95) transparent transparent transparent;
+        }
+
+        /* 銚子（右上） */
+        .spot-label[data-spot="choshi"] {
+            top: 20%;
+            right: 10%;
+        }
+        .spot-label[data-spot="choshi"]::after {
+            bottom: 50%;
+            left: -8px;
+            transform: translateY(50%);
+            border-width: 6px 8px 6px 0;
+            border-color: transparent rgba(255,255,255,0.95) transparent transparent;
+        }
+
+        /* 宿泊先（左下） */
+        .spot-label[data-spot="stay"] {
+            bottom: 25%;
+            left: 8%;
+        }
+        .spot-label[data-spot="stay"]::after {
+            top: 50%;
+            right: -8px;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 8px;
+            border-color: transparent transparent transparent rgba(255,255,255,0.95);
+        }
+
+        /* 海水浴場（右下） */
+        .spot-label[data-spot="beach"] {
+            bottom: 20%;
+            right: 12%;
+        }
+        .spot-label[data-spot="beach"]::after {
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 6px 8px 6px;
+            border-color: transparent transparent rgba(255,255,255,0.95) transparent;
+        }
+
+        .label-emoji {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
         .label-day {
             font-size: 11px;
             color: #D97652;
@@ -407,8 +469,18 @@
             font-size: 12px;
             color: #6B6B6B;
         }
+
+        /* モバイルではラベルを地図の下に表示 */
         @media (max-width: 820px) {
-            .spot-label { display: none; }
+            .spot-label {
+                position: static;
+                margin-bottom: 16px;
+                max-width: 100%;
+                transform: none;
+            }
+            .spot-label::after {
+                display: none;
+            }
         }
 
         /* ===== 宿泊先 自動スライダー（マーキー） ===== */
@@ -732,13 +804,11 @@
             margin-bottom: 40px;
         }
         .car-card {
-            border-radius: var(--radius);
-            padding: 28px;
-            background: var(--bg-secondary);
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 4px solid;
-        }
-        .car-card {
             transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease;
         }
         .car-card:hover {
@@ -750,62 +820,43 @@
         .car-card.car3 { border-top-color: var(--accent-3); }
         .car-card.car4 { border-top-color: var(--accent-4); }
         .car-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            letter-spacing: 0.03em;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .stats {
-            background: rgba(255,255,255,0.05);
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-bottom: 14px;
+        .car-driver {
+            font-size: 14px;
+            margin-bottom: 16px;
+            color: var(--accent-1);
+        }
+        .car-members {
+            margin-bottom: 16px;
+        }
+        .member-title, .route-title {
             font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 6px;
             color: var(--text-secondary);
-        }
-        .driver {
-            background: rgba(255,255,255,0.06);
-            padding: 10px 12px;
-            border-radius: 8px;
             margin-bottom: 8px;
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 600;
         }
-        .member {
-            padding: 8px 12px;
-            margin: 5px 0;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .member.female::before { content: "👩 "; }
-        .member.male::before { content: "👨 "; }
-        .member .grade {
-            display: inline-block;
-            background: #eceae6;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 11px;
-            margin-left: 6px;
-        }
-        .member .grade.year4 { background: #f3ded4; color: #b25636; }
-        .member .grade.year3 { background: #e0e9dd; color: #4a6b52; }
-        .route {
-            margin-top: 14px;
-            padding: 12px 14px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
+        .member-item {
             font-size: 13px;
-            line-height: 1.7;
+            line-height: 1.8;
+            color: var(--text-primary);
+            padding-left: 12px;
+            position: relative;
+        }
+        .member-item::before {
+            content: '・';
+            position: absolute;
+            left: 0;
+        }
+        .route-text {
+            font-size: 13px;
+            line-height: 1.6;
             color: var(--text-secondary);
         }
-        .route strong { color: var(--text-primary); }
         .route-info {
             margin-top: 20px;
             padding-top: 20px;
@@ -1199,7 +1250,7 @@
     <section class="hero" id="hero">
         <!-- 中央下にタイトル -->
         <div class="hero-title-simple">
-            <h1>伊藤元重ゼミ<br>2026年 夏合宿</h1>
+            <h1>2026年 伊藤元重ゼミ 夏合宿</h1>
         </div>
         <div class="scroll-hint">
             <span>SCROLL</span>
@@ -1218,40 +1269,32 @@
             <div class="map-with-labels">
                 <div id="journey-map" style="height: 600px;"></div>
 
-                <div class="spot-label" data-spot="fireworks" style="top: 6%; left: 2%;">
-                    <div class="label-arrow"></div>
-                    <div class="label-content">
-                        <div class="label-day">1日目 18:00</div>
-                        <div class="label-name">水郷おみがわ花火大会</div>
-                        <div class="label-desc">約10,000発の花火</div>
-                    </div>
+                <div class="spot-label" data-spot="fireworks">
+                    <div class="label-emoji">🎆</div>
+                    <div class="label-day">1日目 18:00</div>
+                    <div class="label-name">水郷おみがわ花火大会</div>
+                    <div class="label-desc">約10,000発の花火を観賞</div>
                 </div>
 
-                <div class="spot-label" data-spot="choshi" style="bottom: 8%; right: 2%;">
-                    <div class="label-arrow"></div>
-                    <div class="label-content">
-                        <div class="label-day">1日目 12:00</div>
-                        <div class="label-name">銚子（海鮮ランチ）</div>
-                        <div class="label-desc">新鮮な海の幸</div>
-                    </div>
+                <div class="spot-label" data-spot="choshi">
+                    <div class="label-emoji">🍱</div>
+                    <div class="label-day">1日目 12:00</div>
+                    <div class="label-name">銚子</div>
+                    <div class="label-desc">海鮮ランチ</div>
                 </div>
 
-                <div class="spot-label" data-spot="stay" style="top: 8%; right: 2%;">
-                    <div class="label-arrow"></div>
-                    <div class="label-content">
-                        <div class="label-day">1日目 13:00</div>
-                        <div class="label-name">宿泊先（Airbnb）</div>
-                        <div class="label-desc">鹿嶋の和風ヴィラ</div>
-                    </div>
+                <div class="spot-label" data-spot="stay">
+                    <div class="label-emoji">🏠</div>
+                    <div class="label-day">1日目 14:30 チェックイン</div>
+                    <div class="label-name">宿泊先（和風ヴィラ）</div>
+                    <div class="label-desc">その後、海へ</div>
                 </div>
 
-                <div class="spot-label" data-spot="beach" style="bottom: 8%; left: 2%;">
-                    <div class="label-arrow"></div>
-                    <div class="label-content">
-                        <div class="label-day">2日目 11:00〜</div>
-                        <div class="label-name">海水浴場・ビーチ散策</div>
-                        <div class="label-desc">波の音を聴きながら</div>
-                    </div>
+                <div class="spot-label" data-spot="beach">
+                    <div class="label-emoji">🏖️</div>
+                    <div class="label-day">2日目 11:00〜</div>
+                    <div class="label-name">海水浴場</div>
+                    <div class="label-desc">ビーチ散策・海水浴</div>
                 </div>
             </div>
 
@@ -1271,7 +1314,7 @@
                             <span class="event">銚子到着（海鮮）</span>
                         </div>
                         <div class="time-item">
-                            <span class="time">13:00</span>
+                            <span class="time">14:30</span>
                             <span class="event">Airbnbチェックイン、その後に海</span>
                         </div>
                         <div class="time-item highlight">
@@ -1357,7 +1400,7 @@
                         <li><span class="label">住所</span><span class="value">茨城県鹿嶋市<span style="opacity:.6">（仮）</span></span></li>
                         <li><span class="label">定員</span><span class="value">20名</span></li>
                         <li><span class="label">設備</span><span class="value">Wi-Fi完備 ／ 駐車場あり ／ キッチン・調理器具 ／ 囲炉裏風掘りごたつ ／ 檜風呂 ／ 屋外BBQスペース</span></li>
-                        <li><span class="label">チェックイン</span><span class="value">15:00～<span style="opacity:.6">（仮）</span></span></li>
+                        <li><span class="label">チェックイン</span><span class="value">14:30～<span style="opacity:.6">（仮）</span></span></li>
                         <li><span class="label">チェックアウト</span><span class="value">11:00<span style="opacity:.6">（仮）</span></span></li>
                     </ul>
                     <a href="https://www.airbnb.jp/rooms/838021724102367663" target="_blank" rel="noopener" class="airbnb-link">
@@ -1425,73 +1468,66 @@
             <!-- 全車両一覧（横4列） -->
             <div class="cars-grid-all">
                 <div class="car-card car1">
-                    <div class="car-title">🚗 車1: 飯田弥一（5人乗り）</div>
-                    <div class="stats"><span>👨男子3名 👩女子2名</span><span>4年3名 3年2名</span></div>
-                    <div class="driver">👤 運転: 飯田弥一（稲毛）<span class="grade year4">4年</span></div>
-                    <div class="member female">2. 竜瀬愛羅（鎌取駅）<span class="grade year4">4年</span></div>
-                    <div class="member female">3. 田中美宇（市川駅）<span class="grade year3">3年</span></div>
-                    <div class="member male">4. 浦野智之（清澄白河）<span class="grade year4">4年</span></div>
-                    <div class="member male">5. 近藤康仁（西日暮里）<span class="grade year3">3年</span></div>
-                    <div class="route-info">
-                        <h4>ルート</h4>
-                        <ol class="pickup-route">
-                            <li><strong>稲毛</strong>（出発地点）- 飯田弥一</li>
-                            <li><strong>鎌取</strong> - 竜瀬愛羅</li>
-                            <li><strong>市川</strong> - 田中美宇</li>
-                            <li><strong>春日駅前</strong>（集合スポット）- 浦野智之、近藤康仁</li>
-                        </ol>
+                    <div class="car-title">車1: 飯田弥一（5人乗り）</div>
+                    <div class="car-driver">運転: 飯田弥一（稲毛・4年）</div>
+                    <div class="car-members">
+                        <div class="member-title">メンバー</div>
+                        <div class="member-item">竜瀬愛羅（鎌取駅・4年・女性）</div>
+                        <div class="member-item">田中美宇（市川駅・3年・女性）</div>
+                        <div class="member-item">浦野智之（清澄白河・4年）</div>
+                        <div class="member-item">近藤康仁（西日暮里・3年）</div>
+                    </div>
+                    <div class="car-route">
+                        <div class="route-title">ルート</div>
+                        <div class="route-text">稲毛 → 鎌取 → 市川 → 春日駅前</div>
                     </div>
                 </div>
 
                 <div class="car-card car2">
-                    <div class="car-title">🚗 車2: 伊藤究（6人乗り）</div>
-                    <div class="stats"><span>👨男子4名 👩女子2名</span><span>4年4名 3年2名</span></div>
-                    <div class="driver">👤 運転: 伊藤究（妙典）<span class="grade year4">4年</span></div>
-                    <div class="member male">2. 宮川大輝（春日）<span class="grade year4">4年</span></div>
-                    <div class="member male">3. 杉本青唯（春日）<span class="grade year3">3年</span></div>
-                    <div class="member male">4. 大山晃汰（後楽園）<span class="grade year4">4年</span></div>
-                    <div class="member female">5. 望月恵麻（日吉本町）<span class="grade year3">3年</span></div>
-                    <div class="member female">6. 河合奏楽（自由が丘）<span class="grade year4">4年</span></div>
-                    <div class="route-info">
-                        <h4>ルート</h4>
-                        <ol class="pickup-route">
-                            <li><strong>妙典</strong>（出発地点）- 伊藤究</li>
-                            <li><strong>春日駅前</strong>（集合スポット）- 宮川大輝、杉本青唯、大山晃汰</li>
-                            <li><strong>自由が丘駅前</strong>（集合スポット）- 望月恵麻、河合奏楽</li>
-                        </ol>
+                    <div class="car-title">車2: 伊藤究（6人乗り）</div>
+                    <div class="car-driver">運転: 伊藤究（妙典・4年）</div>
+                    <div class="car-members">
+                        <div class="member-title">メンバー</div>
+                        <div class="member-item">宮川大輝（春日・4年）</div>
+                        <div class="member-item">杉本青唯（春日・3年）</div>
+                        <div class="member-item">大山晃汰（後楽園・4年）</div>
+                        <div class="member-item">望月恵麻（日吉本町・3年・女性）</div>
+                        <div class="member-item">河合奏楽（自由が丘・4年・女性）</div>
+                    </div>
+                    <div class="car-route">
+                        <div class="route-title">ルート</div>
+                        <div class="route-text">妙典 → 春日駅前 → 自由が丘駅前</div>
                     </div>
                 </div>
 
                 <div class="car-card car3">
-                    <div class="car-title">🚗 車3: レンタカー（4人乗り）</div>
-                    <div class="stats"><span>👨男子2名 👩女子2名</span><span>4年2名 3年2名</span></div>
-                    <div class="driver">👤 運転: 古山幹人（横浜）<span class="grade year3">3年</span></div>
-                    <div class="member female">2. 簗嶋咲月（宮前平）<span class="grade year4">4年</span></div>
-                    <div class="member male">3. 髙井柊（綱島駅）<span class="grade year4">4年</span></div>
-                    <div class="member female">4. 酒井萌々香（駒沢大学）<span class="grade year3">3年</span></div>
-                    <div class="route-info">
-                        <h4>ルート</h4>
-                        <ol class="pickup-route">
-                            <li><strong>横浜</strong>（出発地点）- 古山幹人</li>
-                            <li><strong>二子玉川駅前</strong>（集合スポット）- 簗嶋咲月、髙井柊、酒井萌々香</li>
-                        </ol>
+                    <div class="car-title">車3: レンタカー（4人乗り）</div>
+                    <div class="car-driver">運転: 古山幹人（横浜・3年）</div>
+                    <div class="car-members">
+                        <div class="member-title">メンバー</div>
+                        <div class="member-item">簗嶋咲月（宮前平・4年・女性）</div>
+                        <div class="member-item">髙井柊（綱島駅・4年）</div>
+                        <div class="member-item">酒井萌々香（駒沢大学・3年・女性）</div>
+                    </div>
+                    <div class="car-route">
+                        <div class="route-title">ルート</div>
+                        <div class="route-text">横浜 → 二子玉川駅前</div>
                     </div>
                 </div>
 
                 <div class="car-card car4">
-                    <div class="car-title">🚗 車4: レンタカー（5人乗り）</div>
-                    <div class="stats"><span>👨男子3名 👩女子2名</span><span>4年2名 3年3名</span></div>
-                    <div class="driver">👤 運転: 太田一誓（市ヶ谷）<span class="grade year3">3年</span></div>
-                    <div class="member female">2. 野上佳鈴（荻窪）<span class="grade year4">4年</span></div>
-                    <div class="member male">3. 八木健太（笹塚駅）<span class="grade year3">3年</span></div>
-                    <div class="member male">4. 岡将太郎（品川駅）<span class="grade year3">3年</span></div>
-                    <div class="member female">5. 簗嶋祐月（宮前平）<span class="grade year4">4年</span></div>
-                    <div class="route-info">
-                        <h4>ルート</h4>
-                        <ol class="pickup-route">
-                            <li><strong>吉祥寺駅</strong>（レンタカー受取・集合スポット）- 太田一誓、野上佳鈴、八木健太</li>
-                            <li><strong>二子玉川駅前</strong>（集合スポット）- 岡将太郎、簗嶋祐月</li>
-                        </ol>
+                    <div class="car-title">車4: レンタカー（5人乗り）</div>
+                    <div class="car-driver">運転: 太田一誓（市ヶ谷・3年）</div>
+                    <div class="car-members">
+                        <div class="member-title">メンバー</div>
+                        <div class="member-item">野上佳鈴（荻窪・4年・女性）</div>
+                        <div class="member-item">八木健太（笹塚駅・3年）</div>
+                        <div class="member-item">岡将太郎（品川駅・3年）</div>
+                        <div class="member-item">簗嶋祐月（宮前平・4年・女性）</div>
+                    </div>
+                    <div class="car-route">
+                        <div class="route-title">ルート</div>
+                        <div class="route-text">吉祥寺駅 → 二子玉川駅前</div>
                     </div>
                 </div>
             </div>
@@ -1696,7 +1732,7 @@
             boxZoom: false,
             keyboard: false,
             zoomControl: true
-        }).setView([35.9, 140.6], 10);
+        }).setView([35.85, 140.55], 11);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
             attribution: '© OpenStreetMap, © CARTO'
         }).addTo(overviewMap);
@@ -1710,7 +1746,7 @@
         const spots = [
             { name: '\u6c34\u90f7\u304a\u307f\u304c\u308f\u82b1\u706b\u5927\u4f1a', coords: [35.8842, 140.4917], emoji: '\ud83c\udf86', day: '1\u65e5\u76ee', time: '18:00', description: '\u7d0410,000\u767a\u306e\u82b1\u706b', scrollTo: '#fireworks' },
             { name: '\u929a\u5b50\uff08\u6d77\u9bae\u30e9\u30f3\u30c1\uff09', coords: [35.7347, 140.8267], emoji: '\ud83c\udf71', day: '1\u65e5\u76ee', time: '12:00', description: '\u65b0\u9bae\u306a\u6d77\u306e\u5e78' },
-            { name: '\u5bbf\u6cca\u5148\uff08Airbnb\uff09', coords: [35.9658, 140.6447], emoji: '\ud83c\udfe0', day: '1\u65e5\u76ee', time: '13:00 \u30c1\u30a7\u30c3\u30af\u30a4\u30f3', description: '\u548c\u98a8\u30f4\u30a3\u30e9', scrollTo: '#stay' },
+            { name: '\u5bbf\u6cca\u5148\uff08Airbnb\uff09', coords: [35.9658, 140.6447], emoji: '\ud83c\udfe0', day: '1\u65e5\u76ee', time: '14:30 \u30c1\u30a7\u30c3\u30af\u30a4\u30f3', description: '\u548c\u98a8\u30f4\u30a3\u30e9', scrollTo: '#stay' },
             { name: '\u6d77\u6c34\u6d74\u5834', coords: [35.9833, 140.6833], emoji: '\ud83c\udfd6\ufe0f', day: '2\u65e5\u76ee', time: '11:00\u301c', description: '\u30d3\u30fc\u30c1\u6563\u7b56' },
             { name: '\u9e7f\u5cf6\u795e\u5bae', coords: [35.9658, 140.6306], emoji: '\u26e9\ufe0f', day: '2\u65e5\u76ee', time: '\uff08\u30aa\u30d7\u30b7\u30e7\u30f3\uff09', description: '\u95a2\u6771\u6700\u53e4\u306e\u795e\u793e' }
         ];
