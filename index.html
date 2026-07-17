@@ -800,6 +800,43 @@
             color: var(--text-secondary);
         }
         .route strong { color: var(--text-primary); }
+        .route-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+        }
+        .route-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+        .pickup-route {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .pickup-route li {
+            font-size: 13px;
+            line-height: 1.8;
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .pickup-route li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        .pickup-route li:first-child::before {
+            content: "🚗";
+        }
+        .pickup-route li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
         .gathering-note {
             background: #f6f1e6;
             border-left: 3px solid var(--accent-4);
@@ -1131,6 +1168,15 @@
                     <div class="member female">3. 田中美宇（市川駅）<span class="grade year3">3年</span></div>
                     <div class="member male">4. 浦野智之（清澄白河）<span class="grade year4">4年</span></div>
                     <div class="member male">5. 近藤康仁（西日暮里）<span class="grade year3">3年</span></div>
+                    <div class="route-info">
+                        <h4>ルート</h4>
+                        <ol class="pickup-route">
+                            <li><strong>稲毛</strong>（出発地点）- 飯田弥一</li>
+                            <li><strong>鎌取</strong> - 竜瀬愛羅</li>
+                            <li><strong>市川</strong> - 田中美宇</li>
+                            <li><strong>春日駅前</strong>（集合スポット）- 浦野智之、近藤康仁</li>
+                        </ol>
+                    </div>
                 </div>
 
                 <div class="car-card car2">
@@ -1142,6 +1188,14 @@
                     <div class="member male">4. 大山晃汰（後楽園）<span class="grade year4">4年</span></div>
                     <div class="member female">5. 望月恵麻（日吉本町）<span class="grade year3">3年</span></div>
                     <div class="member female">6. 河合奏楽（自由が丘）<span class="grade year4">4年</span></div>
+                    <div class="route-info">
+                        <h4>ルート</h4>
+                        <ol class="pickup-route">
+                            <li><strong>妙典</strong>（出発地点）- 伊藤究</li>
+                            <li><strong>春日駅前</strong>（集合スポット）- 宮川大輝、杉本青唯、大山晃汰</li>
+                            <li><strong>自由が丘駅前</strong>（集合スポット）- 望月恵麻、河合奏楽</li>
+                        </ol>
+                    </div>
                 </div>
 
                 <div class="car-card car3">
@@ -1151,6 +1205,13 @@
                     <div class="member female">2. 簗嶋咲月（宮前平）<span class="grade year4">4年</span></div>
                     <div class="member male">3. 髙井柊（綱島駅）<span class="grade year4">4年</span></div>
                     <div class="member female">4. 酒井萌々香（駒沢大学）<span class="grade year3">3年</span></div>
+                    <div class="route-info">
+                        <h4>ルート</h4>
+                        <ol class="pickup-route">
+                            <li><strong>横浜</strong>（出発地点）- 古山幹人</li>
+                            <li><strong>二子玉川駅前</strong>（集合スポット）- 簗嶋咲月、髙井柊、酒井萌々香</li>
+                        </ol>
+                    </div>
                 </div>
 
                 <div class="car-card car4">
@@ -1161,6 +1222,13 @@
                     <div class="member male">3. 八木健太（笹塚駅）<span class="grade year3">3年</span></div>
                     <div class="member male">4. 岡将太郎（品川駅）<span class="grade year3">3年</span></div>
                     <div class="member female">5. 簗嶋祐月（宮前平）<span class="grade year4">4年</span></div>
+                    <div class="route-info">
+                        <h4>ルート</h4>
+                        <ol class="pickup-route">
+                            <li><strong>吉祥寺駅</strong>（レンタカー受取・集合スポット）- 太田一誓、野上佳鈴、八木健太</li>
+                            <li><strong>二子玉川駅前</strong>（集合スポット）- 岡将太郎、簗嶋祐月</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
