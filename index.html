@@ -264,7 +264,7 @@
         }
         .hero-title-simple h1 {
             font-family: 'Zen Antique', serif;
-            font-size: clamp(32px, 5vw, 56px);
+            font-size: clamp(42px, 6.5vw, 72px);
             font-weight: 400;
             letter-spacing: 0.12em;
             color: #FEFEFE;
@@ -333,6 +333,7 @@
             margin-bottom: 48px;
             position: relative;
             padding-bottom: 16px;
+            text-align: left;
         }
         h2.section-title::after {
             content: "";
@@ -371,115 +372,68 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 700px;
+        }
         #journey-map {
+            width: 100%;
+            height: 100%;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--shadow);
         }
-        .spot-label {
+        .location-card {
             position: absolute;
             background: rgba(255, 255, 255, 0.95);
-            padding: 12px 16px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            max-width: 220px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            max-width: 240px;
+            width: 240px;
             z-index: 1000;
-            pointer-events: auto;
         }
-
-        /* 矢印 */
-        .spot-label::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-style: solid;
+        .card-emoji {
+            font-size: 32px;
+            margin-bottom: 8px;
         }
-
-        /* 花火（上部） */
-        .spot-label[data-spot="fireworks"] {
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .spot-label[data-spot="fireworks"]::after {
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 8px 6px 0 6px;
-            border-color: rgba(255,255,255,0.95) transparent transparent transparent;
-        }
-
-        /* 銚子（右上） */
-        .spot-label[data-spot="choshi"] {
-            top: 20%;
-            right: 10%;
-        }
-        .spot-label[data-spot="choshi"]::after {
-            bottom: 50%;
-            left: -8px;
-            transform: translateY(50%);
-            border-width: 6px 8px 6px 0;
-            border-color: transparent rgba(255,255,255,0.95) transparent transparent;
-        }
-
-        /* 宿泊先（左下） */
-        .spot-label[data-spot="stay"] {
-            bottom: 25%;
-            left: 8%;
-        }
-        .spot-label[data-spot="stay"]::after {
-            top: 50%;
-            right: -8px;
-            transform: translateY(-50%);
-            border-width: 6px 0 6px 8px;
-            border-color: transparent transparent transparent rgba(255,255,255,0.95);
-        }
-
-        /* 海水浴場（右下） */
-        .spot-label[data-spot="beach"] {
-            bottom: 20%;
-            right: 12%;
-        }
-        .spot-label[data-spot="beach"]::after {
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 0 6px 8px 6px;
-            border-color: transparent transparent rgba(255,255,255,0.95) transparent;
-        }
-
-        .label-emoji {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        .label-day {
+        .card-day {
             font-size: 11px;
             color: #D97652;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
-        .label-name {
-            font-size: 14px;
+        .card-title {
+            font-size: 16px;
             font-weight: 600;
             color: #2C2C2C;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
-        .label-desc {
-            font-size: 12px;
+        .card-desc {
+            font-size: 13px;
             color: #6B6B6B;
+            line-height: 1.4;
         }
 
-        /* モバイルではラベルを地図の下に表示 */
+        /* モバイル */
         @media (max-width: 820px) {
-            .spot-label {
-                position: static;
+            .location-card {
+                position: static !important;
                 margin-bottom: 16px;
                 max-width: 100%;
-                transform: none;
+                width: 100%;
+                transform: none !important;
             }
-            .spot-label::after {
-                display: none;
+            .card-arrow, .card-arrow-tip {
+                display: none !important;
+            }
+            .map-container {
+                height: auto;
+            }
+            #journey-map {
+                height: 400px;
+                margin-bottom: 20px;
             }
         }
 
@@ -519,7 +473,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 40px;
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0;
         }
         .recreation-item {
             background: rgba(255, 255, 255, 0.05);
@@ -1133,7 +1087,7 @@
         }
         .fireworks-content {
             max-width: 700px;
-            margin: 0 auto;
+            margin: 0;
             background: rgba(0, 0, 0, 0.6);
             padding: 40px;
             border-radius: 16px;
@@ -1174,7 +1128,7 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0;
         }
         .packing-item {
             background: rgba(255, 255, 255, 0.05);
@@ -1266,35 +1220,55 @@
             <p style="text-align:center; color:var(--text-secondary); margin-bottom:56px; letter-spacing:0.05em;">銚子・鹿島をめぐる1泊2日の行程</p>
 
             <!-- 地図＋ラベル -->
-            <div class="map-with-labels">
-                <div id="journey-map" style="height: 600px;"></div>
+            <div class="map-container">
+                <div id="journey-map"></div>
 
-                <div class="spot-label" data-spot="fireworks">
-                    <div class="label-emoji">🎆</div>
-                    <div class="label-day">1日目 18:00</div>
-                    <div class="label-name">水郷おみがわ花火大会</div>
-                    <div class="label-desc">約10,000発の花火を観賞</div>
+                <!-- 花火 -->
+                <div class="location-card" data-card="fireworks" data-lat="35.8842" data-lng="140.4917">
+                    <div class="card-content">
+                        <div class="card-emoji">🎆</div>
+                        <div class="card-day">1日目 18:00</div>
+                        <div class="card-title">水郷おみがわ花火大会</div>
+                        <div class="card-desc">約10,000発の花火を観賞</div>
+                    </div>
+                    <div class="card-arrow"></div>
+                    <div class="card-arrow-tip"></div>
                 </div>
 
-                <div class="spot-label" data-spot="choshi">
-                    <div class="label-emoji">🍱</div>
-                    <div class="label-day">1日目 12:00</div>
-                    <div class="label-name">銚子</div>
-                    <div class="label-desc">海鮮ランチ</div>
+                <!-- 銚子 -->
+                <div class="location-card" data-card="choshi" data-lat="35.7347" data-lng="140.8267">
+                    <div class="card-content">
+                        <div class="card-emoji">🍱</div>
+                        <div class="card-day">1日目 12:00</div>
+                        <div class="card-title">銚子</div>
+                        <div class="card-desc">海鮮ランチ</div>
+                    </div>
+                    <div class="card-arrow"></div>
+                    <div class="card-arrow-tip"></div>
                 </div>
 
-                <div class="spot-label" data-spot="stay">
-                    <div class="label-emoji">🏠</div>
-                    <div class="label-day">1日目 14:30 チェックイン</div>
-                    <div class="label-name">宿泊先（和風ヴィラ）</div>
-                    <div class="label-desc">その後、海へ</div>
+                <!-- 宿泊先 -->
+                <div class="location-card" data-card="stay" data-lat="35.9658" data-lng="140.6447">
+                    <div class="card-content">
+                        <div class="card-emoji">🏠</div>
+                        <div class="card-day">1日目 14:30 チェックイン</div>
+                        <div class="card-title">宿泊先（和風ヴィラ）</div>
+                        <div class="card-desc">その後、海へ</div>
+                    </div>
+                    <div class="card-arrow"></div>
+                    <div class="card-arrow-tip"></div>
                 </div>
 
-                <div class="spot-label" data-spot="beach">
-                    <div class="label-emoji">🏖️</div>
-                    <div class="label-day">2日目 11:00〜</div>
-                    <div class="label-name">海水浴場</div>
-                    <div class="label-desc">ビーチ散策・海水浴</div>
+                <!-- 海水浴場 -->
+                <div class="location-card" data-card="beach" data-lat="35.9833" data-lng="140.6833">
+                    <div class="card-content">
+                        <div class="card-emoji">🏖️</div>
+                        <div class="card-day">2日目 11:00〜</div>
+                        <div class="card-title">海水浴場</div>
+                        <div class="card-desc">ビーチ散策・海水浴</div>
+                    </div>
+                    <div class="card-arrow"></div>
+                    <div class="card-arrow-tip"></div>
                 </div>
             </div>
 
@@ -1366,8 +1340,8 @@
         <div class="section-bg-image" id="fireworksBg"></div>
         <div class="wrap reveal" style="position: relative; z-index: 1;">
             <span class="section-tag" style="text-align:center; display:block;">Fireworks</span>
-            <h2 class="section-title" style="text-align:center;">水郷おみがわ花火大会</h2>
-            <div class="fireworks-content" style="text-align:center;">
+            <h2 class="section-title">水郷おみがわ花火大会</h2>
+            <div class="fireworks-content">
                 <p style="font-size:18px; margin-bottom:16px;"><strong style="color:var(--accent-1);">8月1日（金）18:00〜<span style="opacity:.6">（仮）</span></strong></p>
                 <p style="margin-bottom:12px;">千葉県香取市 小見川地区</p>
                 <p style="margin-bottom:24px;">水面に映る花火が美しい、水郷の花火大会</p>
@@ -1428,7 +1402,7 @@
     <section id="recreation" style="padding: 120px 0; background: rgba(0, 0, 0, 0.2);">
         <div class="container wrap reveal">
             <span class="section-tag" style="text-align:center; display:block;">Recreation</span>
-            <h2 class="section-title" style="text-align:center;">レクリエーション</h2>
+            <h2 class="section-title">レクリエーション</h2>
 
             <div class="recreation-grid">
                 <!-- 企画1 -->
@@ -1725,14 +1699,19 @@
 
         // ===== 行程マップ =====
         const overviewMap = L.map('journey-map', {
-            scrollWheelZoom: false,
-            doubleClickZoom: false,
+            center: [35.85, 140.55],
+            zoom: 11,
+            // すべてのインタラクションを無効化
             dragging: false,
             touchZoom: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
             boxZoom: false,
             keyboard: false,
-            zoomControl: true
-        }).setView([35.85, 140.55], 11);
+            zoomControl: false,
+            attributionControl: true
+        });
+        window.journeyMap = overviewMap;
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
             attribution: '© OpenStreetMap, © CARTO'
         }).addTo(overviewMap);
@@ -1775,6 +1754,177 @@
 
         // モバイルで地図がずれる対策（全ルートは常時表示）
         setTimeout(() => map.invalidateSize(), 300);
+
+        // ===== カード位置を緯度経度から動的計算 =====
+        function positionLocationCards() {
+            if (!window.journeyMap) return;
+            if (window.innerWidth <= 820) return;  // モバイルは静的配置
+
+            const cards = document.querySelectorAll('.location-card');
+
+            cards.forEach(card => {
+                const lat = parseFloat(card.dataset.lat);
+                const lng = parseFloat(card.dataset.lng);
+                const cardType = card.dataset.card;
+                if (isNaN(lat) || isNaN(lng)) return;
+
+                // 緯度経度から画面座標を取得
+                const point = window.journeyMap.latLngToContainerPoint([lat, lng]);
+
+                // カードのサイズ
+                const cardWidth = 240;
+                const cardHeight = card.offsetHeight || 140;
+
+                let leftPos, topPos, arrowConfig;
+
+                switch (cardType) {
+                    case 'fireworks':
+                        // 花火：マーカーの上にカード
+                        leftPos = point.x - (cardWidth / 2);
+                        topPos = point.y - cardHeight - 80;
+                        arrowConfig = { direction: 'down', length: 70 };
+                        break;
+                    case 'choshi':
+                        // 銚子：マーカーの左にカード
+                        leftPos = point.x + 60;
+                        topPos = point.y - (cardHeight / 2);
+                        arrowConfig = { direction: 'left', length: 50 };
+                        break;
+                    case 'stay':
+                        // 宿泊先：マーカーの右にカード
+                        leftPos = point.x - cardWidth - 60;
+                        topPos = point.y - (cardHeight / 2);
+                        arrowConfig = { direction: 'right', length: 50 };
+                        break;
+                    case 'beach':
+                        // 海水浴場：マーカーの下にカード
+                        leftPos = point.x - (cardWidth / 2);
+                        topPos = point.y + 50;
+                        arrowConfig = { direction: 'up', length: 40 };
+                        break;
+                    default:
+                        return;
+                }
+
+                // カード位置を設定
+                card.style.left = leftPos + 'px';
+                card.style.top = topPos + 'px';
+                card.style.transform = 'none';
+
+                // 矢印を再配置
+                const arrow = card.querySelector('.card-arrow');
+                const arrowTip = card.querySelector('.card-arrow-tip');
+
+                if (arrow && arrowTip && arrowConfig) {
+                    arrow.style.cssText = '';
+                    arrowTip.style.cssText = '';
+
+                    if (arrowConfig.direction === 'down') {
+                        arrow.style.cssText = `
+                            position: absolute;
+                            top: 100%;
+                            left: 50%;
+                            width: 2px;
+                            height: ${arrowConfig.length}px;
+                            background: rgba(217, 118, 82, 0.6);
+                            transform: translateX(-50%);
+                        `;
+                        arrowTip.style.cssText = `
+                            position: absolute;
+                            top: calc(100% + ${arrowConfig.length}px);
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-left: 6px solid transparent;
+                            border-right: 6px solid transparent;
+                            border-top: 8px solid rgba(217, 118, 82, 0.6);
+                        `;
+                    } else if (arrowConfig.direction === 'left') {
+                        arrow.style.cssText = `
+                            position: absolute;
+                            top: 50%;
+                            right: 100%;
+                            width: ${arrowConfig.length}px;
+                            height: 2px;
+                            background: rgba(217, 118, 82, 0.6);
+                            transform: translateY(-50%);
+                        `;
+                        arrowTip.style.cssText = `
+                            position: absolute;
+                            top: 50%;
+                            right: calc(100% + ${arrowConfig.length}px);
+                            transform: translateY(-50%);
+                            width: 0;
+                            height: 0;
+                            border-top: 6px solid transparent;
+                            border-bottom: 6px solid transparent;
+                            border-right: 8px solid rgba(217, 118, 82, 0.6);
+                        `;
+                    } else if (arrowConfig.direction === 'right') {
+                        arrow.style.cssText = `
+                            position: absolute;
+                            top: 50%;
+                            left: 100%;
+                            width: ${arrowConfig.length}px;
+                            height: 2px;
+                            background: rgba(217, 118, 82, 0.6);
+                            transform: translateY(-50%);
+                        `;
+                        arrowTip.style.cssText = `
+                            position: absolute;
+                            top: 50%;
+                            left: calc(100% + ${arrowConfig.length}px);
+                            transform: translateY(-50%);
+                            width: 0;
+                            height: 0;
+                            border-top: 6px solid transparent;
+                            border-bottom: 6px solid transparent;
+                            border-left: 8px solid rgba(217, 118, 82, 0.6);
+                        `;
+                    } else if (arrowConfig.direction === 'up') {
+                        arrow.style.cssText = `
+                            position: absolute;
+                            bottom: 100%;
+                            left: 50%;
+                            width: 2px;
+                            height: ${arrowConfig.length}px;
+                            background: rgba(217, 118, 82, 0.6);
+                            transform: translateX(-50%);
+                        `;
+                        arrowTip.style.cssText = `
+                            position: absolute;
+                            bottom: calc(100% + ${arrowConfig.length}px);
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-left: 6px solid transparent;
+                            border-right: 6px solid transparent;
+                            border-bottom: 8px solid rgba(217, 118, 82, 0.6);
+                        `;
+                    }
+                }
+            });
+        }
+
+        // 地図が準備できたら実行
+        window.journeyMap.whenReady(() => {
+            setTimeout(positionLocationCards, 100);  // タイル読み込み待ち
+        });
+        // invalidateSize後にも再計算
+        setTimeout(positionLocationCards, 500);
+
+        // リサイズ時に再計算
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 820) {
+                    positionLocationCards();
+                }
+            }, 200);
+        });
 
         // ===== 花火・宿泊先 背景画像（既存のbase64画像を再利用） =====
         (function () {
