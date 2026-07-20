@@ -1189,15 +1189,29 @@
             /* 2. ヒーロー画面 */
             .hero {
                 min-height: 100vh;
-                padding-bottom: 80px;
+                padding: 80px 20px 100px;
+            }
+            .hero-title-simple {
+                width: 100%;
+                max-width: 360px;
+                margin: 0 auto;
             }
             .hero-title-simple h1 {
-                font-size: clamp(28px, 7vw, 42px);
-                letter-spacing: 0.08em;
-                padding: 0 20px;
+                font-size: 40px;
+                letter-spacing: 0.12em;
+                line-height: 1.75;
+                font-weight: 400;
+                text-align: center;
+                text-shadow: 0 2px 16px rgba(0,0,0,0.8);
+                word-break: keep-all;
+                overflow-wrap: break-word;
             }
             .scroll-hint {
-                bottom: 30px;
+                bottom: 40px;
+            }
+            .scroll-hint span {
+                font-size: 11px;
+                letter-spacing: 0.3em;
             }
 
             /* 3. セクション全般の余白 */
