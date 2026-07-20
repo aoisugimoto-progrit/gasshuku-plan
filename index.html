@@ -326,25 +326,26 @@
             margin-bottom: 12px;
         }
         h2.section-title {
+            font-family: 'Zen Antique', serif;
             font-size: clamp(28px, 4vw, 36px);
-            font-weight: 600;
-            letter-spacing: 0.04em;
+            font-weight: 400;
+            letter-spacing: 0.08em;
             line-height: 1.4;
             margin-bottom: 48px;
             position: relative;
             padding-bottom: 16px;
-            text-align: left;
+            text-align: center;
         }
         h2.section-title::after {
             content: "";
             position: absolute;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             bottom: 0;
             height: 2px;
-            width: 0;
+            width: 60px;
             background: linear-gradient(90deg, var(--accent-1), var(--accent-4));
             border-radius: 2px;
-            transition: width 0.9s cubic-bezier(.2,.7,.2,1) 0.25s;
         }
         .reveal.visible h2.section-title::after { width: 64px; }
         .bg-secondary { background: rgba(255, 255, 255, 0.02); }
@@ -388,7 +389,7 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.95);
             padding: 16px 20px;
-            border-radius: 12px;
+            border-radius: var(--radius);
             box-shadow: 0 4px 16px rgba(0,0,0,0.3);
             max-width: 220px;
             width: 220px;
@@ -452,7 +453,7 @@
         .slider-track img {
             height: 350px;
             width: auto;
-            border-radius: 12px;
+            border-radius: var(--radius);
             flex-shrink: 0;
             object-fit: cover;
         }
@@ -559,7 +560,7 @@
         .qa {
             background: var(--bg-secondary);
             border-left: 3px solid var(--accent-1);
-            border-radius: 12px;
+            border-radius: var(--radius);
             padding: 24px 28px;
             margin-bottom: 18px;
         }
@@ -698,6 +699,33 @@
             letter-spacing: 0.04em;
         }
 
+        /* ===== 時間タグ（統一） ===== */
+        .time-badge {
+            display: inline-block;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+        .time-badge.day1 {
+            background: var(--accent-1);
+        }
+        .time-badge.day2 {
+            background: var(--accent-2);
+        }
+
+        /* ===== セクション装飾（統一） ===== */
+        .section-tag::before {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), transparent);
+            margin: 0 auto 12px;
+        }
+
         /* ===== 配車計画 ===== */
         .callout {
             border-radius: var(--radius);
@@ -760,7 +788,7 @@
         .car-card {
             background: rgba(255, 255, 255, 0.05);
             padding: 24px;
-            border-radius: 12px;
+            border-radius: var(--radius);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 4px solid;
             transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease;
@@ -929,7 +957,7 @@
         }
         .checklist li {
             background: var(--bg-secondary);
-            border-radius: 12px;
+            border-radius: var(--radius);
             padding: 16px 20px;
             box-shadow: var(--shadow);
             display: flex;
@@ -1142,7 +1170,7 @@
         .packing-item {
             background: rgba(255, 255, 255, 0.05);
             padding: 32px 20px;
-            border-radius: 12px;
+            border-radius: var(--radius);
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
@@ -1542,7 +1570,7 @@
         <div class="section-bg-image" id="choshiBg"></div>
         <div class="wrap reveal" style="position: relative; z-index: 1;">
             <div style="text-align: center; margin-bottom: 16px;">
-                <span style="display: inline-block; background: var(--accent-1); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em;">1日目 12:00〜13:30</span>
+                <span class="time-badge day1">1日目 12:00〜13:30</span>
             </div>
             <span class="section-tag" style="text-align:center; display:block;">Lunch in Choshi</span>
             <h2 class="section-title">銚子 海鮮ランチ</h2>
@@ -1557,7 +1585,8 @@
         <div class="section-bg-image" id="beachBg"></div>
         <div class="wrap reveal" style="position: relative; z-index: 1;">
             <div style="text-align: center; margin-bottom: 16px;">
-                <span style="display: inline-block; background: var(--accent-3); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em;">1日目 15:00〜17:30 / 2日目 11:00〜</span>
+                <span class="time-badge day1">1日目 15:00〜17:30</span>
+                <span class="time-badge day2" style="margin-left: 8px;">2日目 11:00〜</span>
             </div>
             <span class="section-tag" style="text-align:center; display:block;">Beach</span>
             <h2 class="section-title">鹿島 ビーチ</h2>
@@ -1572,7 +1601,7 @@
         <div class="section-bg-image" id="fireworksBg"></div>
         <div class="wrap reveal" style="position: relative; z-index: 1;">
             <div style="text-align: center; margin-bottom: 16px;">
-                <span style="display: inline-block; background: var(--accent-1); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em;">1日目 18:00〜20:30</span>
+                <span class="time-badge day1">1日目 18:00〜20:30</span>
             </div>
             <span class="section-tag" style="text-align:center; display:block;">Fireworks</span>
             <h2 class="section-title">水郷おみがわ花火大会</h2>
@@ -1592,7 +1621,8 @@
         </div>
         <div class="wrap reveal" style="position: relative; z-index: 1;">
             <div style="text-align: center; margin-bottom: 16px;">
-                <span style="display: inline-block; background: var(--accent-2); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em;">1日目 14:30 チェックイン / 2日目 11:00 チェックアウト</span>
+                <span class="time-badge day1">1日目 14:30 チェックイン</span>
+                <span class="time-badge day2" style="margin-left: 8px;">2日目 11:00 チェックアウト</span>
             </div>
             <span class="section-tag">Stay</span>
             <h2 class="section-title">泊まる場所</h2>
